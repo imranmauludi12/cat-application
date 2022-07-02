@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MyCatApplication</string>
+
+    <string name="label_name">Breed Name</string>
+    <string name="label_origin">Origin</string>
+    <string name="label_country">Country</string>
+    <string name="label_pattern">Pattern</string>
+    <string name="update_favorite">Save to Favorite</string>
+    <string name="open_favorite_page">Open Favorite Page</string>
+    <string name="cat_application">Cat Application</string>
+
+    <string name="failed_get_data">Failed to get data!</string>
+</resources>
