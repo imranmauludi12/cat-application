@@ -5,25 +5,23 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.dicoding.mycatapplication.R
 import com.dicoding.mycatapplication.core.domain.BreedEntity
-import com.dicoding.mycatapplication.core.presentation.ViewModelFactory
 import com.dicoding.mycatapplication.databinding.ActivityDetailBreedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailBreedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBreedBinding
-    private lateinit var viewModel: DetailViewModel
     private lateinit var breed: BreedEntity
     private var favoriteState: Boolean = false
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBreedBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         val intentData = intent?.getIntExtra(BREED_ID, 0)
         if (intentData != null) {

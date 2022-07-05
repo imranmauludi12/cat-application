@@ -3,18 +3,19 @@ package com.dicoding.mycatapplication.core.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
 import com.dicoding.mycatapplication.core.data.local.LocalDataSource
 import com.dicoding.mycatapplication.core.data.remote.RemoteDataSource
-import com.dicoding.mycatapplication.core.di.Resource
-import com.dicoding.mycatapplication.core.di.Result
+import com.dicoding.mycatapplication.core.util.Resource
+import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.domain.BreedEntity
 import com.dicoding.mycatapplication.core.domain.IBreedRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BreedRepository(
+@Singleton
+class BreedRepository @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ): IBreedRepository {
@@ -68,16 +69,6 @@ class BreedRepository(
     }
 
     companion object {
-        @Volatile
-        var instance: BreedRepository? = null
-
-        fun getInstance(
-            localDataSource: LocalDataSource,
-            remoteDataSource: RemoteDataSource
-        ): BreedRepository = instance ?: synchronized(this) {
-            instance ?: BreedRepository(localDataSource, remoteDataSource)
-        }
-
         private const val TAG = "cek breedRepository"
     }
 

@@ -1,4 +1,4 @@
-package com.dicoding.mycatapplication.core.di
+package com.dicoding.mycatapplication.core.util
 
 sealed class Result<out R> private constructor() {
     data class Success<out T>(val data: T): Result<T>()
