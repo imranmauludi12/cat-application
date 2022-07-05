@@ -2,10 +2,11 @@ package com.dicoding.mycatapplication.core.domain
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.dicoding.mycatapplication.core.di.Result
+import com.dicoding.mycatapplication.core.util.Result
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class BreedInteractor(private val breedRepository: IBreedRepository): BreedUseCase {
+class BreedInteractor @Inject constructor(private val breedRepository: IBreedRepository): BreedUseCase {
     override fun getListBreeds(): LiveData<Result<List<BreedEntity>>> {
         return breedRepository.getListOfBreeds().asLiveData()
     }
@@ -15,7 +16,6 @@ class BreedInteractor(private val breedRepository: IBreedRepository): BreedUseCa
     }
 
     override fun getFavBreed(): Flow<Result<List<BreedEntity>>> {
-//        return breedRepository.getFavoriteBreed().asLiveData()
         return breedRepository.getFavoriteBreed()
     }
 

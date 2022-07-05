@@ -3,9 +3,12 @@ package com.dicoding.mycatapplication.detail
 import androidx.lifecycle.*
 import com.dicoding.mycatapplication.core.domain.BreedEntity
 import com.dicoding.mycatapplication.core.domain.BreedUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(private val breedUseCase: BreedUseCase): ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val breedUseCase: BreedUseCase): ViewModel() {
 
     private val _breedID = MutableLiveData<Int>()
 

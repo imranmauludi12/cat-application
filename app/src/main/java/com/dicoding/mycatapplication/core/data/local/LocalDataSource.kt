@@ -1,22 +1,13 @@
 package com.dicoding.mycatapplication.core.data.local
 
-import androidx.lifecycle.LiveData
 import com.dicoding.mycatapplication.core.data.local.database.BreedDao
 import com.dicoding.mycatapplication.core.domain.BreedEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class LocalDataSource private constructor(private val dao: BreedDao) {
-
-    companion object {
-        @Volatile
-        var INSTANCE: LocalDataSource? = null
-
-        fun getInstance(dao: BreedDao): LocalDataSource =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: LocalDataSource(dao)
-            }
-
-    }
+@Singleton
+open class LocalDataSource @Inject constructor(private val dao: BreedDao) {
 
     fun getListOfBreedsWithFlow(): Flow<List<BreedEntity>> = dao.getBreedsFromDBWithFlow()
     fun getBreedById(id: Int): Flow<BreedEntity> = dao.getBreedByID(id)

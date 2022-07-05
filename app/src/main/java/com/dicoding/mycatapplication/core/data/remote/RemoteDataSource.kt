@@ -3,10 +3,13 @@ package com.dicoding.mycatapplication.core.data.remote
 import android.util.Log
 import com.dicoding.mycatapplication.core.data.remote.network.ApiService
 import com.dicoding.mycatapplication.core.data.remote.response.DataItem
-import com.dicoding.mycatapplication.core.di.Resource
+import com.dicoding.mycatapplication.core.util.Resource
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemoteDataSource private constructor(
+@Singleton
+class RemoteDataSource @Inject constructor(
     private val apiService: ApiService
 ) {
 
@@ -27,13 +30,6 @@ class RemoteDataSource private constructor(
     }
 
     companion object {
-        private var INSTANCE: RemoteDataSource? = null
-
-        fun getInstance(apiService: ApiService): RemoteDataSource =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: RemoteDataSource(apiService)
-            }
-
         private const val PAGE_SIZE = 1
         private const val TAG = "cek remoteDataSource"
     }

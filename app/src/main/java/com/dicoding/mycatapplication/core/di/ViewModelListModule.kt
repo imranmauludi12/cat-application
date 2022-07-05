@@ -38,12 +38,14 @@ internal object ViewModelListModule {
     @Provides
     fun provideLocalDataSource(@ApplicationContext context: Context) : LocalDataSource {
         val database = AppDatabase.getInstance(context)
-        return LocalDataSource.getInstance(database.breedDao())
+//        return LocalDataSource.getInstance(database.breedDao())
+        return LocalDataSource(database.breedDao())
     }
 
     @Provides
     fun provideRemoteDataSource(): RemoteDataSource {
         val apiService = ApiConfig().getApiService()
-        return RemoteDataSource.getInstance(apiService)
+//        return RemoteDataSource.getInstance(apiService)
+        return RemoteDataSource(apiService)
     }
 }

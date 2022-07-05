@@ -8,23 +8,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.mycatapplication.R
 import com.dicoding.mycatapplication.databinding.ActivityListBreedBinding
-import com.dicoding.mycatapplication.core.di.Result
+import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
-import com.dicoding.mycatapplication.core.presentation.ViewModelFactory
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
 import com.dicoding.mycatapplication.favorite.FavoriteBreedActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListBreedActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListBreedBinding
-    private lateinit var viewModel: ListViewModel
+    private val viewModel: ListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +42,6 @@ class ListBreedActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvListBreed.layoutManager = layoutManager
-
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[ListViewModel::class.java]
 
         viewModel.listOfCatBreeds.observe(this) {
             when(it) {

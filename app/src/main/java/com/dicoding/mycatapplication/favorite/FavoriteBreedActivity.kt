@@ -3,28 +3,28 @@ package com.dicoding.mycatapplication.favorite
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.mycatapplication.core.di.Result
+import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
-import com.dicoding.mycatapplication.core.presentation.ViewModelFactory
 import com.dicoding.mycatapplication.databinding.ActivityFavoriteBreedBinding
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FavoriteBreedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteBreedBinding
-    private lateinit var viewModel: FavoriteViewModel
     private lateinit var adapter: BreedAdapter
+    private val viewModel: FavoriteViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +42,6 @@ class FavoriteBreedActivity : AppCompatActivity() {
         val linearLayout = LinearLayoutManager(this)
         binding.rvFavorite.layoutManager = linearLayout
 
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
         getFavoriteData()
 
         initAction()
