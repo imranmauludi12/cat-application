@@ -13,9 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCatApplication">
         <activity
+            android:name=".setting.SettingActivity"
+            android:exported="false"
+            android:parentActivityName=".list.ListBreedActivity" />
+        <activity
             android:name=".favorite.FavoriteBreedActivity"
-            android:parentActivityName=".list.ListBreedActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".list.ListBreedActivity" />
         <activity
             android:name=".detail.DetailBreedActivity"
             android:exported="false" />

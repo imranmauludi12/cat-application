@@ -3,12 +3,14 @@ package com.dicoding.mycatapplication.list
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,10 @@ import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
 import com.dicoding.mycatapplication.favorite.FavoriteBreedActivity
+import com.dicoding.mycatapplication.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListBreedActivity : AppCompatActivity() {
@@ -30,37 +35,38 @@ class ListBreedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityListBreedBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("cek listActivity", "onCreate atas")
-
-        val adapter = BreedAdapter {
-            val intentToDetail = Intent(this, DetailBreedActivity::class.java)
-            intentToDetail.putExtra(DetailBreedActivity.BREED_ID, it.id)
-            startActivity(intentToDetail)
-        }
-
-        binding.rvListBreed.adapter = adapter
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvListBreed.layoutManager = layoutManager
 
-        viewModel.listOfCatBreeds.observe(this) {
-            when(it) {
-                is Result.Loading -> {
-                    binding.progressBarList.visibility = View.VISIBLE
-                }
-                is Result.Success -> {
-                    binding.progressBarList.visibility = View.GONE
-                    Log.d("cek listActivity", "viewmodel jalan")
-                    adapter.submitData(it.data)
-                }
-                is Result.Error -> {
-                    binding.progressBarList.visibility = View.GONE
-                    Toast.makeText(this, it.error, Toast.LENGTH_LONG)
-                        .show()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.listOfCatBreeds
+                    .collect { result ->
+                    when (result) {
+                        is Result.Loading -> binding.progressBarList.visibility = View.VISIBLE
+                        is Result.Success -> {
+                            binding.progressBarList.visibility = View.GONE
+                            val dataSets = result.data
+                            if (dataSets != null) {
+
+                                val adapter = BreedAdapter(dataSets = dataSets) { entity ->
+                                    val intentToDetail = Intent(this@ListBreedActivity, DetailBreedActivity::class.java)
+                                    intentToDetail.putExtra(DetailBreedActivity.BREED_ID, entity.id)
+                                    startActivity(intentToDetail)
+                                }
+                                binding.rvListBreed.adapter = adapter
+                            }
+                        }
+                        is Result.Error -> {
+                            binding.progressBarList.visibility = View.GONE
+                            Toast.makeText(this@ListBreedActivity, result.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
-        Log.d("cek listActivity", "onCreate")
+
         initAction()
     }
 
@@ -73,6 +79,11 @@ class ListBreedActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.action_open_favorite -> {
                 val intent = Intent(this, FavoriteBreedActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_open_setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
                 true
             }

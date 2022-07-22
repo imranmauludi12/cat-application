@@ -12,6 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
+import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
 import com.dicoding.mycatapplication.databinding.ActivityFavoriteBreedBinding
@@ -32,13 +34,6 @@ class FavoriteBreedActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        adapter = BreedAdapter {
-            val intentToDetail = Intent(this, DetailBreedActivity::class.java)
-            intentToDetail.putExtra(DetailBreedActivity.BREED_ID, it.id)
-            startActivity(intentToDetail)
-        }
-        binding.rvFavorite.adapter = adapter
-
         val linearLayout = LinearLayoutManager(this)
         binding.rvFavorite.layoutManager = linearLayout
 
@@ -56,7 +51,10 @@ class FavoriteBreedActivity : AppCompatActivity() {
                         is Result.Loading -> { binding.progressBarFavorite.visibility = View.VISIBLE }
                         is Result.Success -> {
                             binding.progressBarFavorite.visibility = View.GONE
-                            adapter.submitData(favorites.data)
+                            adapter = BreedAdapter(favorites.data) {
+                                onClickListener(it)
+                            }
+                            binding.rvFavorite.adapter = adapter
                         }
                         is Result.Error -> {
                             binding.progressBarFavorite.visibility = View.GONE
@@ -67,6 +65,13 @@ class FavoriteBreedActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun onClickListener(it: BreedDomain) {
+        val intentToDetail = Intent(this, DetailBreedActivity::class.java)
+        intentToDetail.putExtra(DetailBreedActivity.BREED_ID, it.id)
+        intentToDetail.putExtra(INTENT_ORIGIN_FAVORITE, true)
+        startActivity(intentToDetail)
     }
 
     private fun initAction() {
@@ -97,5 +102,9 @@ class FavoriteBreedActivity : AppCompatActivity() {
             viewModel.updateFavorite(breed, false)
         }
 
+    }
+
+    companion object {
+        const val INTENT_ORIGIN_FAVORITE = "favoriteActivity"
     }
 }

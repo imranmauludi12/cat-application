@@ -8,4 +8,9 @@
         android:title="@string/open_favorite_page"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_open_setting"
+        android:title="@string/open_setting_page"
+        app:showAsAction="never" />
+
 </menu>

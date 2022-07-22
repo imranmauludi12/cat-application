@@ -3,12 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_detail_breed.xml" value="0.264" />
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_favorite_breed.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_list_breed.xml" value="0.213768115942029" />
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/item_breed.xml" value="0.4" />
-        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/menu/menu_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_detail_breed.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_list_breed.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/layout/activity_setting.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/menu/menu_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/app/src/main/res/xml/preference_setting.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Imron M/Documents/android-expert/cat-app/core/src/main/res/layout/item_breed.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
