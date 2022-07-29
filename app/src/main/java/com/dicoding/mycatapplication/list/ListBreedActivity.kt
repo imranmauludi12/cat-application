@@ -1,8 +1,10 @@
 package com.dicoding.mycatapplication.list
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,8 +21,10 @@ import com.dicoding.mycatapplication.databinding.ActivityListBreedBinding
 import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
-import com.dicoding.mycatapplication.favorite.FavoriteBreedActivity
 import com.dicoding.mycatapplication.setting.SettingActivity
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -78,8 +82,7 @@ class ListBreedActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.action_open_favorite -> {
-                val intent = Intent(this, FavoriteBreedActivity::class.java)
-                startActivity(intent)
+                installModuleFavorite()
                 true
             }
             R.id.action_open_setting -> {
@@ -88,6 +91,36 @@ class ListBreedActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun moveToFavoriteModule() {
+//        val favActivity = Class.forName("com.dicoding.mycatapplication.favorite.FavoriteBreedActivity")
+//        val intent = Intent(this, favActivity)
+        val uri = Uri.parse("mycatapplication://favorite")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+
+    private fun installModuleFavorite() {
+        val splitInstallManager = SplitInstallManagerFactory.create(this)
+        val moduleFavorite = "favorite"
+        if (splitInstallManager.installedModules.contains(moduleFavorite)) {
+            moveToFavoriteModule()
+        } else {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(moduleFavorite)
+                .build()
+            splitInstallManager.startInstall(request)
+                .addOnSuccessListener {
+                    Log.d(TAG, "success install")
+                    moveToFavoriteModule()
+                }
+                .addOnFailureListener { exc ->
+                    Log.d(TAG, "message: ${exc.message.toString()}")
+                    Log.d(TAG, "cause: ${exc.cause.toString()}")
+                    Toast.makeText(this, "Module cannot be installed!", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
@@ -118,7 +151,9 @@ class ListBreedActivity : AppCompatActivity() {
             val breed = (viewHolder as BreedAdapter.ListViewHolder).getBreed()
             viewModel.deleteBreed(breed)
         }
-
     }
 
+    companion object {
+        private const val TAG = "cek ListActivity"
+    }
 }

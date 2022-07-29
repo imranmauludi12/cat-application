@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.dicoding.mycatapplication.R
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.databinding.ActivityDetailBreedBinding
-import com.dicoding.mycatapplication.favorite.FavoriteBreedActivity
-import com.dicoding.mycatapplication.favorite.FavoriteBreedActivity.Companion.INTENT_ORIGIN_FAVORITE
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -97,5 +95,6 @@ class DetailBreedActivity : AppCompatActivity() {
 
     companion object {
         const val BREED_ID = "breed_id_key"
+        const val INTENT_ORIGIN_FAVORITE = "intentFromFavorite"
     }
 }

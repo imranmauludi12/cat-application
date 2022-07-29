@@ -12,28 +12,40 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
+import com.dicoding.mycatapplication.core.di.FavoriteModuleDependencies
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
-import com.dicoding.mycatapplication.databinding.ActivityFavoriteBreedBinding
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
+import com.dicoding.mycatapplication.favorite.databinding.ActivityFavoriteBreedBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class FavoriteBreedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteBreedBinding
     private lateinit var adapter: BreedAdapter
-    private val viewModel: FavoriteViewModel by viewModels()
+
+    @Inject lateinit var viewModelFactory: VIewModelFactory
+    private val viewModel: FavoriteViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerFavoriteComponent.builder()
+            .context(this)
+            .appDependencies(
+                EntryPointAccessors.fromApplication(
+                    applicationContext,
+                    FavoriteModuleDependencies::class.java
+                )
+            )
+            .build()
+            .inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBreedBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         val linearLayout = LinearLayoutManager(this)
         binding.rvFavorite.layoutManager = linearLayout
 
@@ -70,7 +82,7 @@ class FavoriteBreedActivity : AppCompatActivity() {
     private fun onClickListener(it: BreedDomain) {
         val intentToDetail = Intent(this, DetailBreedActivity::class.java)
         intentToDetail.putExtra(DetailBreedActivity.BREED_ID, it.id)
-        intentToDetail.putExtra(INTENT_ORIGIN_FAVORITE, true)
+        intentToDetail.putExtra(DetailBreedActivity.INTENT_ORIGIN_FAVORITE, true)
         startActivity(intentToDetail)
     }
 
@@ -102,9 +114,5 @@ class FavoriteBreedActivity : AppCompatActivity() {
             viewModel.updateFavorite(breed, false)
         }
 
-    }
-
-    companion object {
-        const val INTENT_ORIGIN_FAVORITE = "favoriteActivity"
     }
 }
