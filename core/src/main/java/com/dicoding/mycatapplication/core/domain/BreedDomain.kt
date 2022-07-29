@@ -1,7 +1,6 @@
 package com.dicoding.mycatapplication.core.domain
 
 import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
-import org.jetbrains.annotations.NotNull
 
 data class BreedDomain(
     val id: Int = 0,

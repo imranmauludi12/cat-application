@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import com.dicoding.mycatapplication.R
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.databinding.ActivityDetailBreedBinding
@@ -37,10 +38,10 @@ class DetailBreedActivity : AppCompatActivity() {
                 binding.apply {
 
                     if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                        inputName.setTextColor(resources.getColor(R.color.grey))
-                        inputCountry.setTextColor(resources.getColor(R.color.grey))
-                        inputOrigin.setTextColor(resources.getColor(R.color.grey))
-                        inputPattern.setTextColor(resources.getColor(R.color.grey))
+                        inputName.setTextColor(ContextCompat.getColor(this@DetailBreedActivity, R.color.grey))
+                        inputCountry.setTextColor(ContextCompat.getColor(this@DetailBreedActivity, R.color.grey))
+                        inputOrigin.setTextColor(ContextCompat.getColor(this@DetailBreedActivity, R.color.grey))
+                        inputPattern.setTextColor(ContextCompat.getColor(this@DetailBreedActivity, R.color.grey))
                     }
 
                     inputName.text = it.breedName
@@ -53,14 +54,16 @@ class DetailBreedActivity : AppCompatActivity() {
             }
         }
 
-        binding.deleteButton.setOnClickListener(this::deleteData)
+        binding.deleteButton.setOnClickListener {
+            deleteData()
+        }
         val isComeFromFavoriteActivity = intent?.getBooleanExtra(INTENT_ORIGIN_FAVORITE, false)
         if (isComeFromFavoriteActivity == true) {
             binding.deleteButton.visibility = View.GONE
         }
     }
 
-    private fun deleteData(view: View) {
+    private fun deleteData() {
         viewModel.deleteBreed(breed)
         finish()
     }

@@ -11,7 +11,6 @@ import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.core.domain.IBreedRepository
 import com.dicoding.mycatapplication.core.domain.changeIntoDomainModel
-import com.dicoding.mycatapplication.core.domain.changeIntoEntityModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -49,7 +48,12 @@ class BreedRepository @Inject constructor(
         val entity = localDataSource.getListOfBreedsWithFlow()
             .map {
                 it
-                    .filter { breedEntity -> breedEntity != null }
+                    .filter { breedEntity ->
+                        /* even though lint detect this filter as always true,
+                        app could still crash if changeIntoDomainModel method
+                        done to null value */
+                        breedEntity != null
+                    }
                     .map { entity ->
                     entity.changeIntoDomainModel()
                 }

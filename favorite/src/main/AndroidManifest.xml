@@ -12,10 +12,11 @@
         <dist:fusing dist:include="true" />
     </dist:module>
 
-    <application>
+    <application android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".FavoriteBreedActivity"
-            android:exported="true">
+            android:exported="true"
+            android:parentActivityName="com.dicoding.mycatapplication.list.ListBreedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

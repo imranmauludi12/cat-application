@@ -1,11 +1,9 @@
 package com.dicoding.mycatapplication.detail
 
 import androidx.lifecycle.*
-import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.core.domain.BreedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -3,11 +3,9 @@ package com.dicoding.mycatapplication.core.presentation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.mycatapplication.core.R
 import com.dicoding.mycatapplication.core.databinding.ItemBreedBinding
-import com.dicoding.mycatapplication.core.data.local.database.BreedEntity
 import com.dicoding.mycatapplication.core.domain.BreedDomain
 
 class BreedAdapter(
