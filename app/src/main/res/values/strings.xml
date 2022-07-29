@@ -9,10 +9,10 @@
     <string name="open_favorite_page">Open Favorite Page</string>
     <string name="cat_application">Cat Application</string>
 
-    <string name="failed_get_data">Failed to get data!</string>
     <string name="delete_button">Delete</string>
     <string name="pref_dark_mode">pref_dark_mode</string>
     <string name="open_setting_page">Open Setting Page</string>
     <string name="list_breed_types">List Breed Types:</string>
     <string name="title_favorite">Favorite</string>
+    <string name="illustration_of_cat">Illustration of cat</string>
 </resources>

@@ -22,7 +22,6 @@ import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
 import com.dicoding.mycatapplication.setting.SettingActivity
-import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.hilt.android.AndroidEntryPoint

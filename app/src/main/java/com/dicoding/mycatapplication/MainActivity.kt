@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        @Suppress("DEPRECATION")
         Handler().postDelayed({
             val intent = Intent(this, ListBreedActivity::class.java)
             startActivity(intent)

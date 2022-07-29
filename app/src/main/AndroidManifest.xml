@@ -16,10 +16,6 @@
             android:name=".setting.SettingActivity"
             android:exported="false"
             android:parentActivityName=".list.ListBreedActivity" />
-<!--        <activity-->
-<!--            android:name=".favorite.FavoriteBreedActivity"-->
-<!--            android:exported="false"-->
-<!--            android:parentActivityName=".list.ListBreedActivity" />-->
         <activity
             android:name=".detail.DetailBreedActivity"
             android:exported="false" />

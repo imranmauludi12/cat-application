@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,16 +18,14 @@ import com.dicoding.mycatapplication.core.domain.BreedDomain
 import com.dicoding.mycatapplication.core.util.Result
 import com.dicoding.mycatapplication.core.presentation.BreedAdapter
 import com.dicoding.mycatapplication.detail.DetailBreedActivity
-import com.dicoding.mycatapplication.favorite.databinding.ActivityFavoriteBreedBinding
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FavoriteBreedActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityFavoriteBreedBinding
     private lateinit var adapter: BreedAdapter
+    private lateinit var rvFavorite: RecyclerView
 
     @Inject lateinit var viewModelFactory: VIewModelFactory
     private val viewModel: FavoriteViewModel by viewModels { viewModelFactory }
@@ -43,11 +42,12 @@ class FavoriteBreedActivity : AppCompatActivity() {
             .build()
             .inject(this)
         super.onCreate(savedInstanceState)
-        binding = ActivityFavoriteBreedBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_favorite_breed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        rvFavorite = findViewById(R.id.rv_favorite)
         val linearLayout = LinearLayoutManager(this)
-        binding.rvFavorite.layoutManager = linearLayout
+        rvFavorite.layoutManager = linearLayout
 
         getFavoriteData()
 
@@ -55,21 +55,22 @@ class FavoriteBreedActivity : AppCompatActivity() {
     }
 
     private fun getFavoriteData() {
+        val progressBar: ProgressBar = findViewById(R.id.progressBar_favorite)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.favoriteListOfBreed.collect { favorites ->
                     when (favorites) {
-                        is Result.Loading -> { binding.progressBarFavorite.visibility = View.VISIBLE }
+                        is Result.Loading -> { progressBar.visibility = View.VISIBLE }
                         is Result.Success -> {
-                            binding.progressBarFavorite.visibility = View.GONE
+                            progressBar.visibility = View.GONE
                             adapter = BreedAdapter(favorites.data) {
                                 onClickListener(it)
                             }
-                            binding.rvFavorite.adapter = adapter
+                            rvFavorite.adapter = adapter
                         }
                         is Result.Error -> {
-                            binding.progressBarFavorite.visibility = View.GONE
+                            progressBar.visibility= View.GONE
                             Toast.makeText(this@FavoriteBreedActivity, favorites.error, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -90,7 +91,7 @@ class FavoriteBreedActivity : AppCompatActivity() {
         val callback = Callback()
         val itemTouch = ItemTouchHelper(callback)
 
-        itemTouch.attachToRecyclerView(binding.rvFavorite)
+        itemTouch.attachToRecyclerView(rvFavorite)
     }
 
     inner class Callback: ItemTouchHelper.Callback() {
