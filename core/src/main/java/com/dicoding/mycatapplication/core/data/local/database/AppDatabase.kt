@@ -7,6 +7,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.dicoding.mycatapplication.core.R
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -26,6 +28,9 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
+                val passphrase: ByteArray = SQLiteDatabase.getBytes("catapp".toCharArray())
+                val factory = SupportFactory(passphrase)
+
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
@@ -39,7 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
                             fillWithStartingData(context, dao)
                         }
                     }
-                }).build()
+                }).openHelperFactory(factory).build()
                 INSTANCE = instance
                 instance
             }
