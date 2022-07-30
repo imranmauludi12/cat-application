@@ -63,4 +63,8 @@ dependencies {
     api 'com.google.dagger:dagger-android:2.43'
     kapt 'com.google.dagger:dagger-compiler:2.43'
     kapt 'com.google.dagger:dagger-android-processor:2.43'
+
+    // sql cipher
+    implementation "net.zetetic:android-database-sqlcipher:4.4.0"
+    implementation "androidx.sqlite:sqlite-ktx:2.1.0"
 }
