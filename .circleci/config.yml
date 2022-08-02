@@ -27,6 +27,11 @@ jobs:
           name: Get Gradle Permission
           command: chmod +x ./gradlew
 
+      # Download Dependencies
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+
       # Save the Android build-cache
       - save_cache:
           key: 'android-orb-v1-{{ epoch }}'
