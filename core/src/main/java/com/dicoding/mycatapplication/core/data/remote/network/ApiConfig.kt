@@ -17,9 +17,9 @@ class ApiConfig {
             .setLevel(HttpLoggingInterceptor.Level.BASIC)
 
         val certificatePinner = CertificatePinner.Builder()
-            .add(BASE_URL, "sha256//+7UzN/5MaioPqXtGFpX67I2E0VfRkAt5GUs865zp9s=")
-            .add(BASE_URL, "sha256/jQJTbIh0grw0/1TkHSumWb+Fs0Ggogr621gT3PvPKG0=")
-            .add(BASE_URL, "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
+            .add("catfact.ninja", "sha256//+7UzN/5MaioPqXtGFpX67I2E0VfRkAt5GUs865zp9s=")
+            .add("catfact.ninja", "sha256/jQJTbIh0grw0/1TkHSumWb+Fs0Ggogr621gT3PvPKG0=")
+            .add("catfact.ninja", "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
             .build()
 
         val client = OkHttpClient.Builder()
